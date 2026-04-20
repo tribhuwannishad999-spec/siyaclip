@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const ytdl = require("ytdl-core");
 
 const app = express();
 
@@ -11,6 +10,13 @@ app.get("/", (req, res) => {
   res.send("SiyaClip Real Backend Running 🚀");
 });
 
+function getVideoId(url) {
+  const regExp =
+    /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : null;
+}
+
 app.post("/generate", async (req, res) => {
   try {
     const { url } = req.body;
@@ -18,38 +24,34 @@ app.post("/generate", async (req, res) => {
     if (!url) {
       return res.status(400).json({
         success: false,
-        message: "YouTube link required"
+        message: "YouTube URL required"
       });
     }
 
-    if (!ytdl.validateURL(url)) {
+    const videoId = getVideoId(url);
+
+    if (!videoId) {
       return res.status(400).json({
         success: false,
-        message: "Invalid YouTube link"
+        message: "Invalid YouTube Link"
       });
     }
 
-    const info = await ytdl.getInfo(url);
-
-    const title = info.videoDetails.title;
-    const thumbnail = info.videoDetails.thumbnails.pop().url;
-    const length = info.videoDetails.lengthSeconds;
-    const views = info.videoDetails.viewCount;
+    const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
     return res.json({
       success: true,
-      message: "Real Video Data Loaded 🚀",
-      title: title,
+      title: "YouTube Video Detected",
       thumbnail: thumbnail,
-      duration: length,
-      views: views,
+      views: "Live Views",
+      duration: "Available",
+      videoId: videoId,
       shorts: [
-        "Short 1 Ready",
-        "Short 2 Ready",
-        "Short 3 Ready"
+        { name: "Short 1 Ready", download: "#" },
+        { name: "Short 2 Ready", download: "#" },
+        { name: "Short 3 Ready", download: "#" }
       ]
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
