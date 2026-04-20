@@ -3,15 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SiyaClip AI 🚀</title>
+<title>SiyaClip 🚀</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 font-family:'Inter',sans-serif;
-background:#040404;
+background:#030303;
 color:#fff;
 overflow-x:hidden;
 }
@@ -21,9 +25,9 @@ content:"";
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at top left,#00eaff40,transparent 30%),
-radial-gradient(circle at bottom right,#ff00c840,transparent 30%),
-linear-gradient(135deg,#040404,#07141d,#040404);
+radial-gradient(circle at top left,#00eaff35,transparent 30%),
+radial-gradient(circle at bottom right,#ff00c835,transparent 30%),
+linear-gradient(135deg,#030303,#07131a,#030303);
 z-index:-1;
 }
 
@@ -48,24 +52,26 @@ background:linear-gradient(90deg,#00eaff,#00ff88);
 .card{
 background:rgba(255,255,255,.05);
 border:1px solid rgba(255,255,255,.08);
-border-radius:28px;
 padding:24px;
-margin-bottom:18px;
+border-radius:28px;
+backdrop-filter:blur(10px);
 }
 
 h1{
-font-size:40px;
+font-size:42px;
 line-height:1.05;
 font-weight:900;
-margin-bottom:14px;
+margin-bottom:12px;
 }
 
-h1 span{color:#00eaff}
+h1 span{
+color:#00eaff;
+}
 
 .sub{
 font-size:15px;
+color:#cfcfcf;
 line-height:1.7;
-color:#d6d6d6;
 margin-bottom:18px;
 }
 
@@ -86,31 +92,37 @@ width:100%;
 padding:16px;
 border:none;
 border-radius:18px;
-font-size:18px;
+font-size:20px;
 font-weight:900;
 cursor:pointer;
 background:linear-gradient(90deg,#00eaff,#00ff88);
 color:#000;
+margin-bottom:18px;
 }
 
 .result{
-display:none;
-margin-top:18px;
+margin-top:10px;
+}
+
+.thumb{
+width:100%;
+border-radius:18px;
+margin-bottom:14px;
 }
 
 .success{
+background:#08291b;
 padding:14px;
-border-radius:16px;
-background:#062d1d;
+border-radius:14px;
 color:#7dffbc;
-font-weight:700;
+font-weight:800;
 margin-bottom:14px;
 }
 
 .file{
+background:rgba(255,255,255,.05);
 padding:14px;
 border-radius:16px;
-background:rgba(255,255,255,.05);
 margin-bottom:10px;
 display:flex;
 justify-content:space-between;
@@ -119,35 +131,27 @@ gap:10px;
 }
 
 .download{
-padding:10px 14px;
 border:none;
+padding:10px 14px;
 border-radius:12px;
 font-weight:800;
+cursor:pointer;
 background:#fff;
 color:#000;
-font-size:13px;
-}
-
-.loading{
-display:none;
-text-align:center;
-margin-top:14px;
-color:#00eaff;
-font-weight:700;
 }
 
 .plan{
-padding:20px;
-border-radius:24px;
+margin-top:16px;
+padding:18px;
+border-radius:22px;
 background:rgba(255,255,255,.05);
-margin-bottom:14px;
 }
 
 .footer{
 text-align:center;
 font-size:12px;
-color:#999;
-padding-bottom:20px;
+color:#aaa;
+padding:18px 0;
 }
 </style>
 </head>
@@ -166,23 +170,11 @@ padding-bottom:20px;
 Paste your YouTube link and generate ready-to-post shorts with captions & HD export.
 </div>
 
-<input class="input" type="text" placeholder="Paste YouTube Link Here">
+<input type="text" class="input" placeholder="Paste YouTube Link Here">
 
 <button class="btn" onclick="generateShorts()">Generate 3 Shorts</button>
 
-<div class="loading" id="loading">
-⏳ Processing Your Video...
-</div>
-
-<div class="result" id="result">
-
-<div class="success">
-✅ Shorts Generated Successfully
-</div>
-
-<div id="files"></div>
-
-</div>
+<div class="result" id="result"></div>
 
 </div>
 
@@ -193,7 +185,7 @@ Paste your YouTube link and generate ready-to-post shorts with captions & HD exp
 
 <div class="plan">
 <h2>₹99 Pro Max</h2>
-<p>Unlimited Shorts • Fastest Speed • Premium Access</p>
+<p>Unlimited Shorts • Fastest Speed • Priority Access</p>
 </div>
 
 <div class="footer">
@@ -205,27 +197,29 @@ Paste your YouTube link and generate ready-to-post shorts with captions & HD exp
 <script>
 async function generateShorts(){
 
-const input=document.querySelector(".input");
-const url=input.value.trim();
+const input = document.querySelector(".input");
+const url = input.value.trim();
 
-if(url===""){
+if(url === ""){
 alert("Paste YouTube link first");
 return;
 }
 
-const btn=document.querySelector(".btn");
-const loading=document.getElementById("loading");
-const result=document.getElementById("result");
-const files=document.getElementById("files");
+const btn = document.querySelector(".btn");
+const result = document.getElementById("result");
 
-btn.disabled=true;
-btn.innerText="Processing...";
-loading.style.display="block";
-result.style.display="none";
+btn.innerText = "Processing...";
+btn.disabled = true;
+
+result.innerHTML = `
+<div style="color:#00eaff;font-weight:700;padding:10px 0;">
+⏳ Processing Video...
+</div>
+`;
 
 try{
 
-const res=await fetch("https://siyaclip.onrender.com/generate",{
+const res = await fetch("https://siyaclip.onrender.com/generate",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -233,30 +227,63 @@ headers:{
 body:JSON.stringify({url:url})
 });
 
-const data=await res.json();
+const data = await res.json();
 
-files.innerHTML="";
+if(data.success){
 
-data.shorts.forEach(file=>{
-files.innerHTML+=`
+result.innerHTML = `
+<img src="${data.thumbnail}" class="thumb">
+
+<div class="success">
+✅ Video Detected & Shorts Ready
+</div>
+
+<div style="font-size:18px;font-weight:800;margin-bottom:10px;color:#00ffd5;">
+${data.title}
+</div>
+
+<div style="font-size:13px;color:#aaa;margin-bottom:14px;">
+Video ID: ${data.videoId}
+</div>
+
 <div class="file">
-<span>🎬 ${file}</span>
+<span>🎬 ${data.shorts[0]}</span>
+<button class="download">Download</button>
+</div>
+
+<div class="file">
+<span>🎬 ${data.shorts[1]}</span>
+<button class="download">Download</button>
+</div>
+
+<div class="file">
+<span>🎬 ${data.shorts[2]}</span>
 <button class="download">Download</button>
 </div>
 `;
-});
 
-loading.style.display="none";
-result.style.display="block";
+}else{
 
-}catch(error){
-
-loading.innerHTML="❌ Server Busy / Error";
+result.innerHTML = `
+<div style="color:red;padding-top:12px;">
+${data.message}
+</div>
+`;
 
 }
 
-btn.disabled=false;
-btn.innerText="Generate 3 Shorts";
+}catch(error){
+
+result.innerHTML = `
+<div style="color:red;padding-top:12px;">
+Server Error
+</div>
+`;
+
+}
+
+btn.innerText = "Generate 3 Shorts";
+btn.disabled = false;
 
 }
 </script>
