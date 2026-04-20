@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const ytdl = require("ytdl-core");
 
 const app = express();
 
@@ -7,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("SiyaClip Backend Running 🚀");
+  res.send("SiyaClip Real Backend Running 🚀");
 });
 
 app.post("/generate", async (req, res) => {
@@ -21,29 +22,27 @@ app.post("/generate", async (req, res) => {
       });
     }
 
-    if (!url.includes("youtube.com") && !url.includes("youtu.be")) {
+    if (!ytdl.validateURL(url)) {
       return res.status(400).json({
         success: false,
-        message: "Only YouTube links allowed"
+        message: "Invalid YouTube link"
       });
     }
 
-    let videoId = "";
+    const info = await ytdl.getInfo(url);
 
-    if (url.includes("youtu.be/")) {
-      videoId = url.split("youtu.be/")[1].split("?")[0];
-    } else if (url.includes("v=")) {
-      videoId = url.split("v=")[1].split("&")[0];
-    }
-
-    const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+    const title = info.videoDetails.title;
+    const thumbnail = info.videoDetails.thumbnails.pop().url;
+    const length = info.videoDetails.lengthSeconds;
+    const views = info.videoDetails.viewCount;
 
     return res.json({
       success: true,
-      message: "Video Ready For Processing 🚀",
-      title: "YouTube Video Detected",
+      message: "Real Video Data Loaded 🚀",
+      title: title,
       thumbnail: thumbnail,
-      videoId: videoId,
+      duration: length,
+      views: views,
       shorts: [
         "Short 1 Ready",
         "Short 2 Ready",
@@ -54,7 +53,7 @@ app.post("/generate", async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Server Error"
+      message: "Processing Error"
     });
   }
 });
@@ -62,5 +61,5 @@ app.post("/generate", async (req, res) => {
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
-  console.log("SiyaClip Server Running on " + PORT);
+  console.log("SiyaClip Running on Port " + PORT);
 });
