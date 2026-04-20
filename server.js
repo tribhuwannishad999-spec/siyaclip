@@ -8,66 +8,61 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("SiyaClip yt-dlp Backend Running 🚀");
+  res.send("SiyaClip Debug Backend Running 🚀");
 });
 
-app.post("/generate", async (req, res) => {
-  try {
-    const { url } = req.body;
+app.post("/generate", (req, res) => {
+  const { url } = req.body;
 
-    if (!url) {
-      return res.status(400).json({
+  if (!url) {
+    return res.status(400).json({
+      success: false,
+      message: "YouTube URL required"
+    });
+  }
+
+  const command = `python -m yt_dlp --dump-json "${url}"`;
+
+  exec(command, { maxBuffer: 1024 * 1024 * 20 }, (error, stdout, stderr) => {
+
+    if (error) {
+      return res.status(500).json({
         success: false,
-        message: "YouTube URL required"
+        message: "DEBUG ERROR",
+        error: error.message,
+        stderr: stderr
       });
     }
 
-    const command = `python3 -m yt_dlp --dump-json "${url}"`;
+    try {
+      const data = JSON.parse(stdout);
 
-    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
-      if (error) {
-        return res.status(500).json({
-          success: false,
-          message: "yt-dlp fetch error",
-          error: stderr || error.message
-        });
-      }
+      return res.json({
+        success: true,
+        title: data.title,
+        thumbnail: data.thumbnail,
+        duration: data.duration,
+        views: data.view_count,
+        shorts: [
+          "Short 1 Ready",
+          "Short 2 Ready",
+          "Short 3 Ready"
+        ]
+      });
 
-      try {
-        const data = JSON.parse(stdout);
+    } catch (e) {
+      return res.status(500).json({
+        success: false,
+        message: "JSON Parse Error",
+        raw: stdout
+      });
+    }
 
-        return res.json({
-          success: true,
-          message: "Video Loaded Successfully 🚀",
-          title: data.title || "Untitled Video",
-          thumbnail: data.thumbnail || "",
-          duration: data.duration || 0,
-          views: data.view_count || 0,
-          shorts: [
-            "Short 1 Ready",
-            "Short 2 Ready",
-            "Short 3 Ready"
-          ]
-        });
-
-      } catch (jsonError) {
-        return res.status(500).json({
-          success: false,
-          message: "JSON parse error"
-        });
-      }
-    });
-
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Server Error"
-    });
-  }
+  });
 });
 
 const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
-  console.log("SiyaClip Running on Port " + PORT);
+  console.log("SiyaClip Debug Server Running on " + PORT);
 });
