@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { exec } = require("child_process");
 
 const app = express();
 
@@ -7,15 +8,8 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("SiyaClip Real Backend Running 🚀");
+  res.send("SiyaClip yt-dlp Backend Running 🚀");
 });
-
-function getVideoId(url) {
-  const regExp =
-    /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  const match = url.match(regExp);
-  return match && match[2].length === 11 ? match[2] : null;
-}
 
 app.post("/generate", async (req, res) => {
   try {
@@ -28,34 +22,39 @@ app.post("/generate", async (req, res) => {
       });
     }
 
-    const videoId = getVideoId(url);
+    const command = `yt-dlp --dump-json "${url}"`;
 
-    if (!videoId) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid YouTube Link"
+    exec(command, (error, stdout, stderr) => {
+
+      if (error) {
+        return res.status(500).json({
+          success: false,
+          message: "yt-dlp fetch error"
+        });
+      }
+
+      const data = JSON.parse(stdout);
+
+      return res.json({
+        success: true,
+        message: "Video Loaded Successfully 🚀",
+        title: data.title,
+        thumbnail: data.thumbnail,
+        duration: data.duration,
+        views: data.view_count,
+        shorts: [
+          "Short 1 Ready",
+          "Short 2 Ready",
+          "Short 3 Ready"
+        ]
       });
-    }
 
-    const thumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-
-    return res.json({
-      success: true,
-      title: "YouTube Video Detected",
-      thumbnail: thumbnail,
-      views: "Live Views",
-      duration: "Available",
-      videoId: videoId,
-      shorts: [
-        { name: "Short 1 Ready", download: "#" },
-        { name: "Short 2 Ready", download: "#" },
-        { name: "Short 3 Ready", download: "#" }
-      ]
     });
-  } catch (error) {
+
+  } catch (err) {
     return res.status(500).json({
       success: false,
-      message: "Processing Error"
+      message: "Server Error"
     });
   }
 });
