@@ -3,223 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SiyaClip 🚀 | AI Shorts Generator</title>
+<title>SiyaClip 🚀</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
 font-family:'Poppins',sans-serif;
-background:linear-gradient(-45deg,#050505,#0a1020,#001d24,#111);
-background-size:400% 400%;
-animation:bg 10s ease infinite;
+background:linear-gradient(135deg,#050505,#07131a,#081f26);
 color:#fff;
 min-height:100vh;
-padding:20px;
-overflow-x:hidden;
-}
-@keyframes bg{
-0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
-}
-.glow1,.glow2{
-position:fixed;
-width:220px;height:220px;
-border-radius:50%;
-filter:blur(80px);
-z-index:-1;
-}
-.glow1{background:#00eaff;top:0;left:-60px;}
-.glow2{background:#ff00c8;bottom:0;right:-60px;}
-.wrap{
-max-width:430px;
-margin:auto;
-}
-.topbar{
 display:flex;
-justify-content:space-between;
+justify-content:center;
 align-items:center;
-margin-bottom:18px;
+padding:20px;
+}
+.box{
+width:100%;
+max-width:420px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border-radius:28px;
+padding:28px;
+box-shadow:0 0 30px rgba(0,255,255,.12);
 }
 .logo{
-font-size:30px;
-font-weight:800;
-}
-.logo span{
-color:#00eaff;
-}
-.badge{
-font-size:12px;
-padding:8px 12px;
-border-radius:30px;
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,.08);
-}
-.card{
-background:rgba(255,255,255,.07);
-border:1px solid rgba(255,255,255,.09);
-backdrop-filter:blur(16px);
-padding:22px;
-border-radius:26px;
-box-shadow:0 0 35px rgba(0,234,255,.12);
-}
-.hero{
-text-align:center;
-margin-bottom:18px;
-}
-.hero h1{
 font-size:34px;
-line-height:1.2;
 font-weight:800;
+text-align:center;
 margin-bottom:10px;
 }
-.hero p{
-color:#cfcfcf;
+.logo span{color:#00eaff}
+.tag{
+text-align:center;
 font-size:14px;
+color:#cfcfcf;
+margin-bottom:22px;
+line-height:1.5;
 }
 .input{
-margin-top:20px;
 width:100%;
 padding:16px;
 border:none;
 outline:none;
 border-radius:16px;
-background:#121212;
+background:#111;
 color:#fff;
 font-size:15px;
+margin-bottom:14px;
 }
 .btn{
 width:100%;
-margin-top:14px;
 padding:16px;
 border:none;
 border-radius:16px;
 font-size:18px;
 font-weight:700;
 cursor:pointer;
-background:linear-gradient(90deg,#00eaff,#00ffa3);
+background:linear-gradient(90deg,#00eaff,#00ff99);
 color:#000;
-box-shadow:0 10px 25px rgba(0,255,200,.28);
-transition:.2s;
 }
-.btn:active{transform:scale(.98)}
-.row{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:16px;
-}
-.mini{
-padding:14px;
-border-radius:18px;
-background:rgba(255,255,255,.05);
-text-align:center;
-}
-.mini h3{
-font-size:22px;
-color:#00eaff;
-}
-.mini p{
-font-size:12px;
-color:#c8c8c8;
-margin-top:4px;
-}
-.features{
-margin-top:18px;
-padding:18px;
-border-radius:22px;
-background:rgba(255,255,255,.05);
-}
-.features div{
-padding:7px 0;
-font-size:15px;
-}
-.price{
-margin-top:18px;
-padding:18px;
-border-radius:22px;
-background:linear-gradient(135deg,rgba(0,234,255,.15),rgba(255,0,200,.12));
-border:1px solid rgba(255,255,255,.09);
-text-align:center;
-}
-.price h2{
-font-size:28px;
-margin-bottom:6px;
-}
-.price p{
-font-size:13px;
-color:#ddd;
-}
-.pro{
-margin-top:12px;
-padding:14px;
-border:none;
-border-radius:14px;
+.btn2{
 width:100%;
+padding:15px;
+border:none;
+border-radius:16px;
+font-size:16px;
 font-weight:700;
+cursor:pointer;
 background:#fff;
 color:#000;
+margin-top:12px;
 }
-.footer{
-text-align:center;
-font-size:12px;
-color:#aaa;
+.plan{
 margin-top:18px;
+background:#101820;
+border-radius:22px;
+padding:18px;
+text-align:center;
+}
+.plan h2{
+font-size:28px;
+margin-bottom:8px;
+}
+.plan p{
+font-size:14px;
+color:#d9d9d9;
+line-height:1.7;
+}
+.note{
+margin-top:16px;
+font-size:13px;
+text-align:center;
+color:#aaa;
 }
 </style>
 </head>
 <body>
 
-<div class="glow1"></div>
-<div class="glow2"></div>
+<div class="box">
 
-<div class="wrap">
-
-<div class="topbar">
 <div class="logo">Siya<span>Clip</span> 🚀</div>
-<div class="badge">AI PRO</div>
+
+<div class="tag">
+Turn Any Video Into Viral Shorts <br>
+Fast • Simple • Professional
 </div>
 
-<div class="card">
+<input class="input" type="text" placeholder="Paste YouTube Link">
 
-<div class="hero">
-<h1>Turn Any Video Into <span style="color:#00eaff;">Viral Shorts</span></h1>
-<p>Create 3 trending shorts in one click with captions, music & HD export.</p>
-</div>
+<button class="btn" onclick="alert('Backend Next Step 🔥')">
+Generate 3 Shorts
+</button>
 
-<input class="input" type="text" placeholder="Paste YouTube Link Here">
-
-<button class="btn" onclick="alert('Backend Next Step 🔥')">Generate 3 Shorts</button>
-
-<div class="row">
-<div class="mini">
-<h3>3X</h3>
-<p>Shorts Per Link</p>
-</div>
-<div class="mini">
-<h3>HD</h3>
-<p>Export Quality</p>
-</div>
-</div>
-
-<div class="features">
-<div>✅ Auto Captions</div>
-<div>✅ Viral Ratio 9:16</div>
-<div>✅ Light Background Music</div>
-<div>✅ Fast Cloud Processing</div>
-<div>✅ No Editing Skills Needed</div>
-</div>
-
-<div class="price">
+<div class="plan">
 <h2>Free / Pro ₹49</h2>
-<p>Free: 3 Shorts Daily • Pro: Unlimited + Faster Speed</p>
-<button class="pro">Upgrade Pro</button>
+<p>
+Free: 3 Shorts Daily<br>
+Pro: Unlimited Shorts + Fast Speed
+</p>
+
+<button class="btn2">Upgrade Now</button>
 </div>
 
+<div class="note">
+Trusted by creators • Easy to use
 </div>
-
-<div class="footer">© 2026 SiyaClip • Made For Creators</div>
 
 </div>
 
