@@ -22,33 +22,40 @@ app.post("/generate", async (req, res) => {
       });
     }
 
-    const command = `yt-dlp --dump-json "${url}"`;
+    const command = `python3 -m yt_dlp --dump-json "${url}"`;
 
-    exec(command, (error, stdout, stderr) => {
-
+    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => {
       if (error) {
         return res.status(500).json({
           success: false,
-          message: "yt-dlp fetch error"
+          message: "yt-dlp fetch error",
+          error: stderr || error.message
         });
       }
 
-      const data = JSON.parse(stdout);
+      try {
+        const data = JSON.parse(stdout);
 
-      return res.json({
-        success: true,
-        message: "Video Loaded Successfully 🚀",
-        title: data.title,
-        thumbnail: data.thumbnail,
-        duration: data.duration,
-        views: data.view_count,
-        shorts: [
-          "Short 1 Ready",
-          "Short 2 Ready",
-          "Short 3 Ready"
-        ]
-      });
+        return res.json({
+          success: true,
+          message: "Video Loaded Successfully 🚀",
+          title: data.title || "Untitled Video",
+          thumbnail: data.thumbnail || "",
+          duration: data.duration || 0,
+          views: data.view_count || 0,
+          shorts: [
+            "Short 1 Ready",
+            "Short 2 Ready",
+            "Short 3 Ready"
+          ]
+        });
 
+      } catch (jsonError) {
+        return res.status(500).json({
+          success: false,
+          message: "JSON parse error"
+        });
+      }
     });
 
   } catch (err) {
