@@ -28,14 +28,6 @@ background:
 radial-gradient(circle at top left,#00eaff45,transparent 30%),
 radial-gradient(circle at bottom right,#ff00c845,transparent 30%),
 linear-gradient(135deg,#040404,#07141d,#040404);
-z-index:-2;
-}
-
-body::after{
-content:"";
-position:fixed;
-inset:0;
-backdrop-filter:blur(0px);
 z-index:-1;
 }
 
@@ -55,7 +47,6 @@ margin-bottom:18px;
 .logo{
 font-size:34px;
 font-weight:900;
-letter-spacing:-1px;
 }
 
 .logo span{
@@ -79,7 +70,6 @@ border:1px solid rgba(255,255,255,.08);
 border-radius:30px;
 padding:24px;
 margin-bottom:18px;
-backdrop-filter:blur(16px);
 box-shadow:0 0 35px rgba(0,255,255,.08);
 }
 
@@ -88,7 +78,6 @@ font-size:42px;
 line-height:1.02;
 font-weight:900;
 margin-bottom:14px;
-letter-spacing:-1px;
 }
 
 .hero h1 span{
@@ -125,11 +114,10 @@ cursor:pointer;
 background:linear-gradient(90deg,#00eaff,#00ff88);
 color:#000;
 box-shadow:0 14px 30px rgba(0,255,180,.22);
-transition:.2s;
 }
 
-.btn:active{
-transform:scale(.98);
+.btn:disabled{
+opacity:.7;
 }
 
 .stats{
@@ -157,39 +145,6 @@ font-size:11px;
 color:#bbb;
 }
 
-.title{
-font-size:22px;
-font-weight:900;
-margin-bottom:14px;
-}
-
-.list{
-display:grid;
-gap:10px;
-}
-
-.item{
-padding:14px;
-border-radius:16px;
-background:rgba(255,255,255,.04);
-font-size:14px;
-}
-
-.reviews{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-top:14px;
-}
-
-.review{
-padding:14px;
-border-radius:18px;
-background:rgba(255,255,255,.04);
-font-size:13px;
-text-align:center;
-}
-
 .plans{
 display:grid;
 gap:14px;
@@ -202,22 +157,15 @@ border:1px solid rgba(255,255,255,.08);
 }
 
 .plan h2{
-font-size:30px;
+font-size:28px;
 font-weight:900;
 margin-bottom:8px;
-}
-
-.small{
-font-size:13px;
-color:#ddd;
-margin-bottom:10px;
 }
 
 .plan p{
 font-size:14px;
 line-height:1.8;
 color:#ececec;
-margin-bottom:14px;
 }
 
 .lite{
@@ -226,32 +174,6 @@ background:linear-gradient(135deg,#00eaff18,#00ff8822);
 
 .max{
 background:linear-gradient(135deg,#ff00c822,#7a00ff25);
-box-shadow:0 0 25px rgba(255,0,200,.12);
-}
-
-.white{
-width:100%;
-padding:15px;
-border:none;
-border-radius:18px;
-font-size:16px;
-font-weight:900;
-background:#fff;
-color:#000;
-cursor:pointer;
-}
-
-.faq{
-display:grid;
-gap:10px;
-}
-
-.q{
-padding:14px;
-border-radius:16px;
-background:rgba(255,255,255,.04);
-font-size:14px;
-line-height:1.6;
 }
 
 .footer{
@@ -282,7 +204,7 @@ Paste your YouTube link and instantly generate ready-to-post shorts with caption
 
 <input class="input" type="text" placeholder="Paste YouTube Link Here">
 
-<button class="btn" onclick="alert('Backend Next Step 🔥')">Generate 3 Shorts</button>
+<button class="btn" onclick="generateShorts()">Generate 3 Shorts</button>
 
 <div class="stats">
 <div class="stat">
@@ -303,68 +225,26 @@ Paste your YouTube link and instantly generate ready-to-post shorts with caption
 
 </div>
 
-<div class="card">
-
-<div class="title">Why SiyaClip?</div>
-
-<div class="list">
-<div class="item">✅ Auto Captions = Better Watch Time</div>
-<div class="item">✅ Viral 9:16 Shorts Format</div>
-<div class="item">✅ Trending Music Support</div>
-<div class="item">✅ No Editing Skills Needed</div>
-<div class="item">✅ Save Hours Of Work Daily</div>
-</div>
-
-<div class="reviews">
-<div class="review">⭐ 4.9 User Rating</div>
-<div class="review">🔥 Fast Processing</div>
-<div class="review">🎯 Easy To Use</div>
-<div class="review">🚀 Creator Friendly</div>
-</div>
-
-</div>
-
 <div class="plans">
 
 <div class="plan lite">
 <h2>₹49 Pro Lite</h2>
-<div class="small">Best For Beginners</div>
-
 <p>
 ✔ 30 Shorts / Month<br>
 ✔ Faster Speed<br>
 ✔ HD Export<br>
 ✔ No Watermark
 </p>
-
-<button class="white">Choose ₹49</button>
 </div>
 
 <div class="plan max">
 <h2>₹99 Pro Max</h2>
-<div class="small">Most Popular 🔥</div>
-
 <p>
 ✔ Unlimited Shorts<br>
-✔ Fastest Processing<br>
+✔ Fastest Speed<br>
 ✔ Priority Access<br>
-✔ Premium Features<br>
-✔ Future Updates Free
+✔ Premium Features
 </p>
-
-<button class="white">Choose ₹99</button>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">FAQ</div>
-
-<div class="faq">
-<div class="q">❓ Can I use free plan daily? <br>Yes, 3 shorts every day.</div>
-<div class="q">❓ Which plan is best? <br>₹99 Pro Max gives unlimited access.</div>
-<div class="q">❓ Is it beginner friendly? <br>Yes, one click system.</div>
 </div>
 
 </div>
@@ -374,6 +254,53 @@ Paste your YouTube link and instantly generate ready-to-post shorts with caption
 </div>
 
 </div>
+
+<script>
+async function generateShorts(){
+
+const input = document.querySelector(".input");
+const btn = document.querySelector(".btn");
+const url = input.value.trim();
+
+if(url === ""){
+alert("Please paste YouTube link first");
+return;
+}
+
+btn.innerText = "Processing...";
+btn.disabled = true;
+
+try{
+
+const res = await fetch("https://siyaclip.onrender.com/generate",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({url:url})
+});
+
+const data = await res.json();
+
+if(data.success){
+alert(
+"🚀 " + data.message +
+"\n\n🎬 Generated Shorts:\n\n" +
+data.shorts.join("\n")
+);
+}else{
+alert("Something went wrong");
+}
+
+}catch(error){
+alert("Server Busy / Error");
+}
+
+btn.innerText = "Generate 3 Shorts";
+btn.disabled = false;
+
+}
+</script>
 
 </body>
 </html>
