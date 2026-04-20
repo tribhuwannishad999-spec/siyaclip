@@ -11,31 +11,33 @@ body{
 font-family:'Inter',sans-serif;
 background:#050505;
 color:#fff;
+overflow-x:hidden;
 }
 body:before{
 content:"";
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at top left,#00eaff33,transparent 30%),
-radial-gradient(circle at bottom right,#ff00c833,transparent 30%),
-linear-gradient(135deg,#050505,#08131b,#050505);
+radial-gradient(circle at top left,#00eaff40,transparent 28%),
+radial-gradient(circle at bottom right,#ff00c840,transparent 28%),
+linear-gradient(135deg,#050505,#07121a,#050505);
 z-index:-1;
 }
 .wrap{
 max-width:430px;
 margin:auto;
-padding:20px;
+padding:18px;
 }
 .top{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:20px;
+margin-bottom:18px;
 }
 .logo{
-font-size:30px;
+font-size:32px;
 font-weight:900;
+letter-spacing:-1px;
 }
 .logo span{
 background:linear-gradient(90deg,#00eaff,#00ff88);
@@ -43,79 +45,84 @@ background:linear-gradient(90deg,#00eaff,#00ff88);
 -webkit-text-fill-color:transparent;
 }
 .badge{
-padding:8px 14px;
+padding:9px 14px;
 border-radius:30px;
 font-size:12px;
-font-weight:700;
+font-weight:800;
 background:rgba(255,255,255,.06);
 border:1px solid rgba(255,255,255,.08);
 }
 .card{
 background:rgba(255,255,255,.05);
 border:1px solid rgba(255,255,255,.08);
-border-radius:28px;
+border-radius:30px;
 padding:24px;
 margin-bottom:18px;
-box-shadow:0 0 30px rgba(0,255,255,.08);
+backdrop-filter:blur(12px);
+box-shadow:0 0 35px rgba(0,255,255,.08);
 }
-h1{
-font-size:38px;
-line-height:1.05;
+.hero h1{
+font-size:40px;
+line-height:1.02;
 font-weight:900;
 margin-bottom:14px;
+letter-spacing:-1px;
 }
-h1 span{color:#00eaff}
+.hero h1 span{color:#00eaff}
 .sub{
 font-size:15px;
-color:#d3d3d3;
-line-height:1.6;
+line-height:1.7;
+color:#d5d5d5;
 margin-bottom:18px;
 }
 .input{
 width:100%;
-padding:16px;
+padding:17px;
 border:none;
 outline:none;
 border-radius:18px;
 background:#0b0b0b;
 color:#fff;
-margin-bottom:14px;
 font-size:15px;
+margin-bottom:14px;
 }
 .btn{
 width:100%;
-padding:16px;
+padding:17px;
 border:none;
 border-radius:18px;
 font-size:18px;
-font-weight:800;
+font-weight:900;
+cursor:pointer;
 background:linear-gradient(90deg,#00eaff,#00ff88);
 color:#000;
+box-shadow:0 15px 30px rgba(0,255,180,.18);
 }
-.stats{
+.btn:active{transform:scale(.98)}
+.row{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
 gap:10px;
 margin-top:16px;
 }
-.stat{
+.box{
 background:rgba(255,255,255,.04);
 padding:14px;
 border-radius:18px;
 text-align:center;
 }
-.stat h3{
+.box h3{
 font-size:22px;
 color:#00eaff;
+margin-bottom:4px;
 }
-.stat p{
+.box p{
 font-size:11px;
 color:#bbb;
-margin-top:4px;
 }
-.title{
+.sec-title{
 font-size:22px;
-font-weight:800;
+font-weight:900;
 margin-bottom:14px;
 }
 .list{
@@ -123,48 +130,56 @@ display:grid;
 gap:10px;
 }
 .item{
-background:rgba(255,255,255,.04);
 padding:14px;
 border-radius:16px;
+background:rgba(255,255,255,.04);
 font-size:14px;
+color:#eee;
 }
-.planwrap{
-display:grid;
-gap:14px;
+.review{
+display:flex;
+gap:10px;
+margin-top:14px;
+}
+.review div{
+flex:1;
+padding:14px;
+border-radius:18px;
+background:rgba(255,255,255,.04);
+text-align:center;
+font-size:13px;
 }
 .plan{
-padding:20px;
-border-radius:24px;
-background:rgba(255,255,255,.05);
+padding:24px;
+border-radius:30px;
+background:linear-gradient(135deg,#00eaff18,#ff00c820);
 border:1px solid rgba(255,255,255,.08);
 }
 .plan h2{
-font-size:28px;
+font-size:34px;
 font-weight:900;
 margin-bottom:10px;
 }
-.free h2{color:#00eaff}
-.pro h2{color:#00ff88}
 .plan p{
 font-size:14px;
 line-height:1.8;
-color:#ddd;
+color:#e0e0e0;
+margin-bottom:14px;
 }
 .white{
 width:100%;
-padding:15px;
+padding:16px;
 border:none;
 border-radius:18px;
-font-size:16px;
-font-weight:800;
+font-size:17px;
+font-weight:900;
 background:#fff;
 color:#000;
-margin-top:14px;
 }
-.note{
+.footer{
 text-align:center;
-font-size:13px;
-color:#aaa;
+font-size:12px;
+color:#999;
 padding-bottom:20px;
 }
 </style>
@@ -175,30 +190,32 @@ padding-bottom:20px;
 
 <div class="top">
 <div class="logo">Siya<span>Clip</span> 🚀</div>
-<div class="badge">TRENDING AI</div>
+<div class="badge">HOT TREND</div>
 </div>
 
-<div class="card">
-<h1>Create <span>Viral Shorts</span> Fast</h1>
+<div class="card hero">
+<h1>Turn Videos Into <span>Trending Shorts</span></h1>
 
 <div class="sub">
-Paste your YouTube link and instantly generate ready-to-post shorts with captions, HD export and music.
+Create scroll-stopping shorts with captions, music and HD export in seconds. Perfect for YouTube, Reels & TikTok.
 </div>
 
 <input class="input" type="text" placeholder="Paste YouTube Link Here">
 
-<button class="btn" onclick="alert('Backend Next Step 🔥')">Generate 3 Shorts</button>
+<button class="btn" onclick="alert('Backend Next Step 🔥')">
+Generate 3 Shorts
+</button>
 
-<div class="stats">
-<div class="stat">
+<div class="row">
+<div class="box">
 <h3>3X</h3>
 <p>Shorts</p>
 </div>
-<div class="stat">
+<div class="box">
 <h3>HD</h3>
 <p>Export</p>
 </div>
-<div class="stat">
+<div class="box">
 <h3>Fast</h3>
 <p>Cloud</p>
 </div>
@@ -206,43 +223,35 @@ Paste your YouTube link and instantly generate ready-to-post shorts with caption
 </div>
 
 <div class="card">
-<div class="title">Why SiyaClip?</div>
+<div class="sec-title">Why Creators Love SiyaClip</div>
+
 <div class="list">
-<div class="item">✅ Auto Captions For Better Reach</div>
-<div class="item">✅ Viral 9:16 Shorts Format</div>
+<div class="item">✅ Auto Captions = Better Watch Time</div>
+<div class="item">✅ Viral 9:16 Format Ready</div>
 <div class="item">✅ Trending Music Support</div>
 <div class="item">✅ One Click Generation</div>
-<div class="item">✅ No Editing Skills Needed</div>
+<div class="item">✅ No Editing Skills Required</div>
+</div>
+
+<div class="review">
+<div>⭐ 4.9 Rating</div>
+<div>🔥 Fast Results</div>
+<div>🎯 Easy Use</div>
 </div>
 </div>
 
-<div class="planwrap">
+<div class="card plan">
+<h2>Free / Pro ₹49</h2>
 
-<div class="plan free">
-<h2>Free Plan</h2>
 <p>
-✔ 3 Shorts Daily<br>
-✔ Basic Speed<br>
-✔ HD Download<br>
-✔ Standard Support
+Free Plan: 3 Shorts Daily + HD Export<br>
+Pro Plan: Unlimited Shorts + Faster Speed + Premium Access
 </p>
-</div>
 
-<div class="plan pro">
-<h2>Pro ₹49 / Month</h2>
-<p>
-✔ Unlimited Shorts<br>
-✔ Faster Processing<br>
-✔ Priority Access<br>
-✔ Premium Features<br>
-✔ Future Updates Included
-</p>
 <button class="white">Upgrade Now</button>
 </div>
 
-</div>
-
-<div class="note">
+<div class="footer">
 © 2026 SiyaClip • Built For Creators
 </div>
 
