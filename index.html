@@ -7,11 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
 font-family:'Inter',sans-serif;
@@ -20,13 +16,13 @@ color:#fff;
 overflow-x:hidden;
 }
 
-body::before{
+body:before{
 content:"";
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at top left,#00eaff45,transparent 30%),
-radial-gradient(circle at bottom right,#ff00c845,transparent 30%),
+radial-gradient(circle at top left,#00eaff40,transparent 30%),
+radial-gradient(circle at bottom right,#ff00c840,transparent 30%),
 linear-gradient(135deg,#040404,#07141d,#040404);
 z-index:-1;
 }
@@ -37,16 +33,10 @@ margin:auto;
 padding:18px;
 }
 
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:18px;
-}
-
 .logo{
 font-size:34px;
 font-weight:900;
+margin-bottom:18px;
 }
 
 .logo span{
@@ -55,34 +45,22 @@ background:linear-gradient(90deg,#00eaff,#00ff88);
 -webkit-text-fill-color:transparent;
 }
 
-.badge{
-padding:9px 14px;
-border-radius:30px;
-font-size:12px;
-font-weight:800;
-background:rgba(255,255,255,.06);
-border:1px solid rgba(255,255,255,.08);
-}
-
 .card{
 background:rgba(255,255,255,.05);
 border:1px solid rgba(255,255,255,.08);
-border-radius:30px;
+border-radius:28px;
 padding:24px;
 margin-bottom:18px;
-box-shadow:0 0 35px rgba(0,255,255,.08);
 }
 
-.hero h1{
-font-size:42px;
-line-height:1.02;
+h1{
+font-size:40px;
+line-height:1.05;
 font-weight:900;
 margin-bottom:14px;
 }
 
-.hero h1 span{
-color:#00eaff;
-}
+h1 span{color:#00eaff}
 
 .sub{
 font-size:15px;
@@ -93,7 +71,7 @@ margin-bottom:18px;
 
 .input{
 width:100%;
-padding:17px;
+padding:16px;
 border:none;
 outline:none;
 border-radius:18px;
@@ -105,7 +83,7 @@ margin-bottom:14px;
 
 .btn{
 width:100%;
-padding:17px;
+padding:16px;
 border:none;
 border-radius:18px;
 font-size:18px;
@@ -113,74 +91,63 @@ font-weight:900;
 cursor:pointer;
 background:linear-gradient(90deg,#00eaff,#00ff88);
 color:#000;
-box-shadow:0 14px 30px rgba(0,255,180,.22);
 }
 
-.btn:disabled{
-opacity:.7;
+.result{
+display:none;
+margin-top:18px;
 }
 
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:10px;
-margin-top:16px;
-}
-
-.stat{
-background:rgba(255,255,255,.04);
+.success{
 padding:14px;
-border-radius:18px;
+border-radius:16px;
+background:#062d1d;
+color:#7dffbc;
+font-weight:700;
+margin-bottom:14px;
+}
+
+.file{
+padding:14px;
+border-radius:16px;
+background:rgba(255,255,255,.05);
+margin-bottom:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+}
+
+.download{
+padding:10px 14px;
+border:none;
+border-radius:12px;
+font-weight:800;
+background:#fff;
+color:#000;
+font-size:13px;
+}
+
+.loading{
+display:none;
 text-align:center;
-}
-
-.stat h3{
-font-size:22px;
+margin-top:14px;
 color:#00eaff;
-margin-bottom:4px;
-}
-
-.stat p{
-font-size:11px;
-color:#bbb;
-}
-
-.plans{
-display:grid;
-gap:14px;
+font-weight:700;
 }
 
 .plan{
-padding:22px;
-border-radius:28px;
-border:1px solid rgba(255,255,255,.08);
-}
-
-.plan h2{
-font-size:28px;
-font-weight:900;
-margin-bottom:8px;
-}
-
-.plan p{
-font-size:14px;
-line-height:1.8;
-color:#ececec;
-}
-
-.lite{
-background:linear-gradient(135deg,#00eaff18,#00ff8822);
-}
-
-.max{
-background:linear-gradient(135deg,#ff00c822,#7a00ff25);
+padding:20px;
+border-radius:24px;
+background:rgba(255,255,255,.05);
+margin-bottom:14px;
 }
 
 .footer{
 text-align:center;
 font-size:12px;
 color:#999;
-padding-bottom:25px;
+padding-bottom:20px;
 }
 </style>
 </head>
@@ -189,64 +156,44 @@ padding-bottom:25px;
 
 <div class="wrap">
 
-<div class="top">
 <div class="logo">Siya<span>Clip</span> 🚀</div>
-<div class="badge">TRENDING AI</div>
-</div>
 
-<div class="card hero">
+<div class="card">
 
-<h1>Make <span>Viral Shorts</span> In Seconds</h1>
+<h1>Create <span>Viral Shorts</span></h1>
 
 <div class="sub">
-Paste your YouTube link and instantly generate ready-to-post shorts with captions, music and HD export.
+Paste your YouTube link and generate ready-to-post shorts with captions & HD export.
 </div>
 
 <input class="input" type="text" placeholder="Paste YouTube Link Here">
 
 <button class="btn" onclick="generateShorts()">Generate 3 Shorts</button>
 
-<div class="stats">
-<div class="stat">
-<h3>3X</h3>
-<p>Shorts</p>
+<div class="loading" id="loading">
+⏳ Processing Your Video...
 </div>
 
-<div class="stat">
-<h3>HD</h3>
-<p>Export</p>
+<div class="result" id="result">
+
+<div class="success">
+✅ Shorts Generated Successfully
 </div>
 
-<div class="stat">
-<h3>Fast</h3>
-<p>Cloud</p>
-</div>
+<div id="files"></div>
+
 </div>
 
 </div>
 
-<div class="plans">
-
-<div class="plan lite">
+<div class="plan">
 <h2>₹49 Pro Lite</h2>
-<p>
-✔ 30 Shorts / Month<br>
-✔ Faster Speed<br>
-✔ HD Export<br>
-✔ No Watermark
-</p>
+<p>30 Shorts / Month • Faster Speed • HD Export</p>
 </div>
 
-<div class="plan max">
+<div class="plan">
 <h2>₹99 Pro Max</h2>
-<p>
-✔ Unlimited Shorts<br>
-✔ Fastest Speed<br>
-✔ Priority Access<br>
-✔ Premium Features
-</p>
-</div>
-
+<p>Unlimited Shorts • Fastest Speed • Premium Access</p>
 </div>
 
 <div class="footer">
@@ -258,21 +205,27 @@ Paste your YouTube link and instantly generate ready-to-post shorts with caption
 <script>
 async function generateShorts(){
 
-const input = document.querySelector(".input");
-const btn = document.querySelector(".btn");
-const url = input.value.trim();
+const input=document.querySelector(".input");
+const url=input.value.trim();
 
-if(url === ""){
-alert("Please paste YouTube link first");
+if(url===""){
+alert("Paste YouTube link first");
 return;
 }
 
-btn.innerText = "Processing...";
-btn.disabled = true;
+const btn=document.querySelector(".btn");
+const loading=document.getElementById("loading");
+const result=document.getElementById("result");
+const files=document.getElementById("files");
+
+btn.disabled=true;
+btn.innerText="Processing...";
+loading.style.display="block";
+result.style.display="none";
 
 try{
 
-const res = await fetch("https://siyaclip.onrender.com/generate",{
+const res=await fetch("https://siyaclip.onrender.com/generate",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -280,24 +233,30 @@ headers:{
 body:JSON.stringify({url:url})
 });
 
-const data = await res.json();
+const data=await res.json();
 
-if(data.success){
-alert(
-"🚀 " + data.message +
-"\n\n🎬 Generated Shorts:\n\n" +
-data.shorts.join("\n")
-);
-}else{
-alert("Something went wrong");
-}
+files.innerHTML="";
+
+data.shorts.forEach(file=>{
+files.innerHTML+=`
+<div class="file">
+<span>🎬 ${file}</span>
+<button class="download">Download</button>
+</div>
+`;
+});
+
+loading.style.display="none";
+result.style.display="block";
 
 }catch(error){
-alert("Server Busy / Error");
+
+loading.innerHTML="❌ Server Busy / Error";
+
 }
 
-btn.innerText = "Generate 3 Shorts";
-btn.disabled = false;
+btn.disabled=false;
+btn.innerText="Generate 3 Shorts";
 
 }
 </script>
