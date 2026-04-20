@@ -18,9 +18,9 @@ content:"";
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at top left,#00eaff40,transparent 28%),
-radial-gradient(circle at bottom right,#ff00c840,transparent 28%),
-linear-gradient(135deg,#050505,#07121a,#050505);
+radial-gradient(circle at top left,#00eaff33,transparent 28%),
+radial-gradient(circle at bottom right,#ff00c833,transparent 28%),
+linear-gradient(135deg,#050505,#08131b,#050505);
 z-index:-1;
 }
 .wrap{
@@ -37,7 +37,6 @@ margin-bottom:18px;
 .logo{
 font-size:32px;
 font-weight:900;
-letter-spacing:-1px;
 }
 .logo span{
 background:linear-gradient(90deg,#00eaff,#00ff88);
@@ -45,7 +44,7 @@ background:linear-gradient(90deg,#00eaff,#00ff88);
 -webkit-text-fill-color:transparent;
 }
 .badge{
-padding:9px 14px;
+padding:8px 14px;
 border-radius:30px;
 font-size:12px;
 font-weight:800;
@@ -58,21 +57,19 @@ border:1px solid rgba(255,255,255,.08);
 border-radius:30px;
 padding:24px;
 margin-bottom:18px;
-backdrop-filter:blur(12px);
-box-shadow:0 0 35px rgba(0,255,255,.08);
+box-shadow:0 0 30px rgba(0,255,255,.08);
 }
 .hero h1{
 font-size:40px;
-line-height:1.02;
+line-height:1.03;
 font-weight:900;
 margin-bottom:14px;
-letter-spacing:-1px;
 }
 .hero h1 span{color:#00eaff}
 .sub{
 font-size:15px;
 line-height:1.7;
-color:#d5d5d5;
+color:#d7d7d7;
 margin-bottom:18px;
 }
 .input{
@@ -81,7 +78,7 @@ padding:17px;
 border:none;
 outline:none;
 border-radius:18px;
-background:#0b0b0b;
+background:#0c0c0c;
 color:#fff;
 font-size:15px;
 margin-bottom:14px;
@@ -93,34 +90,32 @@ border:none;
 border-radius:18px;
 font-size:18px;
 font-weight:900;
-cursor:pointer;
 background:linear-gradient(90deg,#00eaff,#00ff88);
 color:#000;
-box-shadow:0 15px 30px rgba(0,255,180,.18);
+cursor:pointer;
 }
-.btn:active{transform:scale(.98)}
-.row{
+.stats{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
 gap:10px;
 margin-top:16px;
 }
-.box{
+.stat{
 background:rgba(255,255,255,.04);
 padding:14px;
 border-radius:18px;
 text-align:center;
 }
-.box h3{
+.stat h3{
 font-size:22px;
 color:#00eaff;
-margin-bottom:4px;
 }
-.box p{
+.stat p{
 font-size:11px;
 color:#bbb;
+margin-top:4px;
 }
-.sec-title{
+.title{
 font-size:22px;
 font-weight:900;
 margin-bottom:14px;
@@ -134,44 +129,44 @@ padding:14px;
 border-radius:16px;
 background:rgba(255,255,255,.04);
 font-size:14px;
-color:#eee;
 }
-.review{
-display:flex;
-gap:10px;
-margin-top:14px;
-}
-.review div{
-flex:1;
-padding:14px;
-border-radius:18px;
-background:rgba(255,255,255,.04);
-text-align:center;
-font-size:13px;
+.plans{
+display:grid;
+gap:14px;
 }
 .plan{
-padding:24px;
-border-radius:30px;
-background:linear-gradient(135deg,#00eaff18,#ff00c820);
+padding:22px;
+border-radius:28px;
 border:1px solid rgba(255,255,255,.08);
 }
 .plan h2{
-font-size:34px;
+font-size:30px;
 font-weight:900;
-margin-bottom:10px;
+margin-bottom:8px;
 }
 .plan p{
 font-size:14px;
 line-height:1.8;
-color:#e0e0e0;
+color:#e2e2e2;
 margin-bottom:14px;
+}
+.lite{
+background:linear-gradient(135deg,#00eaff18,#00ff8820);
+}
+.max{
+background:linear-gradient(135deg,#ff00c820,#7a00ff25);
+}
+.small{
+font-size:13px;
+color:#ddd;
+margin-bottom:12px;
 }
 .white{
 width:100%;
-padding:16px;
+padding:15px;
 border:none;
 border-radius:18px;
-font-size:17px;
+font-size:16px;
 font-weight:900;
 background:#fff;
 color:#000;
@@ -190,32 +185,30 @@ padding-bottom:20px;
 
 <div class="top">
 <div class="logo">Siya<span>Clip</span> 🚀</div>
-<div class="badge">HOT TREND</div>
+<div class="badge">AI SHORTS</div>
 </div>
 
 <div class="card hero">
-<h1>Turn Videos Into <span>Trending Shorts</span></h1>
+<h1>Turn Videos Into <span>Viral Shorts</span></h1>
 
 <div class="sub">
-Create scroll-stopping shorts with captions, music and HD export in seconds. Perfect for YouTube, Reels & TikTok.
+Create high quality shorts with captions, music and HD export in one click.
 </div>
 
 <input class="input" type="text" placeholder="Paste YouTube Link Here">
 
-<button class="btn" onclick="alert('Backend Next Step 🔥')">
-Generate 3 Shorts
-</button>
+<button class="btn" onclick="alert('Backend Next Step 🔥')">Generate 3 Shorts</button>
 
-<div class="row">
-<div class="box">
+<div class="stats">
+<div class="stat">
 <h3>3X</h3>
 <p>Shorts</p>
 </div>
-<div class="box">
+<div class="stat">
 <h3>HD</h3>
 <p>Export</p>
 </div>
-<div class="box">
+<div class="stat">
 <h3>Fast</h3>
 <p>Cloud</p>
 </div>
@@ -223,32 +216,42 @@ Generate 3 Shorts
 </div>
 
 <div class="card">
-<div class="sec-title">Why Creators Love SiyaClip</div>
-
+<div class="title">Why SiyaClip?</div>
 <div class="list">
-<div class="item">✅ Auto Captions = Better Watch Time</div>
-<div class="item">✅ Viral 9:16 Format Ready</div>
+<div class="item">✅ Auto Captions For Better Reach</div>
+<div class="item">✅ Viral 9:16 Shorts Ready</div>
 <div class="item">✅ Trending Music Support</div>
-<div class="item">✅ One Click Generation</div>
-<div class="item">✅ No Editing Skills Required</div>
-</div>
-
-<div class="review">
-<div>⭐ 4.9 Rating</div>
-<div>🔥 Fast Results</div>
-<div>🎯 Easy Use</div>
+<div class="item">✅ No Editing Skills Needed</div>
 </div>
 </div>
 
-<div class="card plan">
-<h2>Free / Pro ₹49</h2>
+<div class="plans">
 
+<div class="plan lite">
+<h2>₹49 Pro Lite</h2>
+<div class="small">Best For Beginners</div>
 <p>
-Free Plan: 3 Shorts Daily + HD Export<br>
-Pro Plan: Unlimited Shorts + Faster Speed + Premium Access
+✔ 30 Shorts / Month<br>
+✔ Faster Processing<br>
+✔ HD Export<br>
+✔ No Watermark
 </p>
+<button class="white">Choose ₹49</button>
+</div>
 
-<button class="white">Upgrade Now</button>
+<div class="plan max">
+<h2>₹99 Pro Max</h2>
+<div class="small">Best Value 🔥</div>
+<p>
+✔ Unlimited Shorts<br>
+✔ Fastest Speed<br>
+✔ Priority Access<br>
+✔ Premium Features<br>
+✔ Future Updates Free
+</p>
+<button class="white">Choose ₹99</button>
+</div>
+
 </div>
 
 <div class="footer">
