@@ -10,27 +10,74 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #09090b; color: #fafafa; scroll-behavior: smooth; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-dark { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .gradient-text { background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .btn-primary { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); transition: transform 0.2s; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px #6366f1; }
         .sidebar-item:hover { background: rgba(255, 255, 255, 0.05); }
         [x-cloak] { display: none !important; }
+        
+        /* Custom Scrollbar for Dashboard */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
     </style>
 </head>
-<body x-data="{ page: 'home', loggedIn: false }">
+<body x-data="authSystem()" x-init="checkSession()">
+
+    <div x-show="showAuthModal" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div @click="showAuthModal = false" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        
+        <div class="glass-dark w-full max-w-md rounded-3xl p-8 relative overflow-hidden" @click.stop>
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+            
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2" x-text="authMode === 'login' ? 'Welcome Back' : 'Create Account'"></h2>
+                <p class="text-zinc-400 text-sm" x-text="authMode === 'login' ? 'Enter your details to access your clips' : 'Join the revolution of AI video creation'"></p>
+            </div>
+
+            <form @submit.prevent="handleAuth" class="space-y-4">
+                <template x-if="authMode === 'signup'">
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Full Name</label>
+                        <input type="text" x-model="formData.name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition" placeholder="Raghav Trivedi">
+                    </div>
+                </template>
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Email Address</label>
+                    <input type="email" x-model="formData.email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition" placeholder="name@company.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Password</label>
+                    <input type="password" x-model="formData.password" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-indigo-500 transition" placeholder="••••••••">
+                </div>
+
+                <template x-if="errorMessage">
+                    <p class="text-red-400 text-xs font-medium bg-red-400/10 p-3 rounded-lg" x-text="errorMessage"></p>
+                </template>
+
+                <button type="submit" class="w-full btn-primary py-4 rounded-xl font-bold mt-4 shadow-xl" x-text="authMode === 'login' ? 'Sign In' : 'Create Free Account'"></button>
+            </form>
+
+            <div class="mt-6 text-center text-sm text-zinc-500">
+                <span x-text="authMode === 'login' ? 'Don\'t have an account?' : 'Already have an account?'"></span>
+                <button @click="toggleMode" class="text-indigo-400 font-bold hover:underline ml-1" x-text="authMode === 'login' ? 'Sign Up' : 'Login'"></button>
+            </div>
+        </div>
+    </div>
 
     <nav class="fixed w-full z-50 glass border-b border-white/10 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-2 cursor-pointer" @click="page = 'home'">
             <span class="text-2xl font-bold tracking-tighter">SiyaClip <span class="text-indigo-500">🚀</span></span>
         </div>
         <div class="flex gap-4">
-            <template x-if="!loggedIn">
+            <template x-if="!isLoggedIn">
                 <div class="flex gap-4 items-center">
-                    <button @click="loggedIn = true; page = 'dashboard'" class="text-sm font-medium hover:text-indigo-400 transition">Login</button>
-                    <button @click="loggedIn = true; page = 'dashboard'" class="btn-primary px-5 py-2 rounded-full text-sm font-bold">Sign Up</button>
+                    <button @click="openAuth('login')" class="text-sm font-medium hover:text-indigo-400 transition">Login</button>
+                    <button @click="openAuth('signup')" class="btn-primary px-5 py-2 rounded-full text-sm font-bold">Sign Up</button>
                 </div>
             </template>
-            <template x-if="loggedIn">
+            <template x-if="isLoggedIn">
                 <button @click="page = 'dashboard'" class="text-sm font-medium bg-white/10 px-4 py-2 rounded-lg border border-white/10 hover:bg-white/20">Go to Dashboard</button>
             </template>
         </div>
@@ -45,7 +92,7 @@
                 <p class="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">The world's most advanced AI clipping engine. Automatically find the best moments, crop for vertical, and add captions instantly.</p>
                 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-                    <button @click="loggedIn = true; page = 'dashboard'" class="btn-primary px-8 py-4 rounded-xl text-lg font-bold">Start Creating Free</button>
+                    <button @click="openAuth('signup')" class="btn-primary px-8 py-4 rounded-xl text-lg font-bold">Start Creating Free</button>
                     <a href="#pricing" class="px-8 py-4 rounded-xl text-lg font-bold glass hover:bg-white/5 transition">View Pricing</a>
                 </div>
 
@@ -107,21 +154,22 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         History
                     </a>
-                    <a href="#" @click="loggedIn = false; page = 'home'" class="sidebar-item flex items-center gap-3 p-3 rounded-lg text-red-400 transition mt-10">
+                    <button @click="logout" class="w-full sidebar-item flex items-center gap-3 p-3 rounded-lg text-red-400 transition mt-10">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                         Logout
-                    </a>
+                    </button>
                 </div>
             </aside>
 
             <div class="flex-1 p-4 md:p-10">
-                <div class="flex justify-between items-center mb-10">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
                     <div>
-                        <h2 class="text-3xl font-bold">Welcome back, Raghav!</h2>
+                        <h2 class="text-3xl font-bold">Welcome back, <span x-text="user.name"></span>!</h2>
                         <p class="text-zinc-500 text-sm">Here is what's happening with your clips.</p>
                     </div>
                     <div class="flex items-center gap-3 glass px-4 py-2 rounded-full border border-white/10">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold">RT</div>
-                        <span class="text-sm font-medium hidden sm:block">Raghav Trivedi</span>
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold" x-text="user.name.substring(0,2).toUpperCase()"></div>
+                        <span class="text-sm font-medium" x-text="user.name"></span>
                     </div>
                 </div>
 
@@ -156,12 +204,91 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer x-show="page === 'home'" class="border-t border-white/10 py-10 text-center text-zinc-500 text-sm">
         <p>&copy; 2026 SiyaClip AI. All rights reserved.</p>
     </footer>
 
+    <script>
+        function authSystem() {
+            return {
+                page: 'home',
+                isLoggedIn: false,
+                showAuthModal: false,
+                authMode: 'login', // login or signup
+                errorMessage: '',
+                user: { name: '', email: '' },
+                formData: { name: '', email: '', password: '' },
+
+                openAuth(mode) {
+                    this.authMode = mode;
+                    this.showAuthModal = true;
+                    this.errorMessage = '';
+                },
+
+                toggleMode() {
+                    this.authMode = this.authMode === 'login' ? 'signup' : 'login';
+                    this.errorMessage = '';
+                },
+
+                checkSession() {
+                    const session = localStorage.getItem('siya_session');
+                    if (session) {
+                        this.user = JSON.parse(session);
+                        this.isLoggedIn = true;
+                        this.page = 'dashboard';
+                    }
+                },
+
+                handleAuth() {
+                    this.errorMessage = '';
+                    const users = JSON.parse(localStorage.getItem('siya_users') || '[]');
+
+                    if (this.authMode === 'signup') {
+                        // Check if user exists
+                        if (users.find(u => u.email === this.formData.email)) {
+                            this.errorMessage = 'Email already registered!';
+                            return;
+                        }
+                        // Create User
+                        const newUser = { 
+                            name: this.formData.name, 
+                            email: this.formData.email, 
+                            password: this.formData.password 
+                        };
+                        users.push(newUser);
+                        localStorage.setItem('siya_users', JSON.stringify(users));
+                        this.loginUser(newUser);
+                    } else {
+                        // Login Logic
+                        const user = users.find(u => u.email === this.formData.email && u.password === this.formData.password);
+                        if (user) {
+                            this.loginUser(user);
+                        } else {
+                            this.errorMessage = 'Invalid email or password.';
+                        }
+                    }
+                },
+
+                loginUser(userData) {
+                    const sessionUser = { name: userData.name, email: userData.email };
+                    localStorage.setItem('siya_session', JSON.stringify(sessionUser));
+                    this.user = sessionUser;
+                    this.isLoggedIn = true;
+                    this.showAuthModal = false;
+                    this.page = 'dashboard';
+                    this.formData = { name: '', email: '', password: '' };
+                },
+
+                logout() {
+                    localStorage.removeItem('siya_session');
+                    this.isLoggedIn = false;
+                    this.page = 'home';
+                    this.user = { name: '', email: '' };
+                }
+            }
+        }
+    </script>
 </body>
 </html>
